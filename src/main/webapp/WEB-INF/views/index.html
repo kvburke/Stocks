@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<title>Wealth Management Alpha 1.1</title>
+<head>
+<script type="text/javascript"src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript"src="logic.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+
+<script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
+<link rel="styleSheet" href="release/ui-grid.min.css"/>
+<script type="text/javascript" src="release/ui-grid.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+<script>
+
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.setOnLoadCallback(drawChart);
+
+
+
+
+
+
+var portfoliodata;
+
+
+function drawChart(){
+	
+
+
+    $.ajax({
+        type: "GET",
+        contentType: 'application/json; charset=utf-8',
+        //dataType: 'json',
+        url: "http://54.172.193.233:8080/stocks/Controller1/portfolio",
+        data: portfoliodata,
+
+        success: function (getjsonportfolio) {
+        
+        console.log(getjsonportfolio);
+        var jsonString=JSON.stringify(getjsonportfolio)
+        console.log("The string is"+jsonString);
+        //var pie = new d3pie("pieChart", a);
+       // alert(a);
+        
+        //jsonStringx= "'"+jsonString+"'";
+        var obj  = JSON.parse(jsonString);
+        console.log(obj[0]);
+        console.log(obj[0].symbol);
+       
+        //window.alert(array[0].Symbol);
+        var arr1= new Array();
+        
+        for(var x in obj){
+        	  arr1.push(obj[x].symbol);
+        	}
+        for (var i = 0; i < arr1.length; i++){
+        	  console.log(arr1[i]);
+        	}
+        
+        
+        var Arr2 = new Array();
+        for(var x in obj){
+      	  Arr2.push(obj[x].count);
+      	}
+      for (var i = 0; i < Arr2.length; i++){
+      	  console.log(Arr2[i]);
+      	}
+      
+      myHeader = ["symbol", "count"];
+      
+      var zip = function (arr1, arr2) {
+    	    var len = Math.max(arr1.length, arr2.length);
+    	    var arr = new Array(len);
+    	    for (var i = 0; i < len; i += 1) {
+    	        arr[i] = [arr1[i], arr2[i]];
+    	    }
+    	    return arr; 
+    	};
+    	data = [myHeader].concat(zip(arr1, Arr2));
+        
+        
+        
+        var Arr2 = [];
+        while(arr1.length) Arr2.push(arr1.splice(0,1));
+
+        
+       
+        
+        
+        var data = new google.visualization.arrayToDataTable(data);
+        
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        
+        var options = {
+                title: 'Wealth Distribution (Before Capital Gains/Losses)',
+                width: 400,
+                height: 240,
+                backgroundColor: {
+                	fill: "#ADD8E6"
+                },
+        		is3D: true
+              };
+        
+        chart.draw(data, options);
+    }
+    });
+
+
+
+
+}
+	
+
+
+
+
+</script>
+<script>
+
+
+
+    $.ajax({
+        type: "GET",
+        contentType: 'application/json; charset=utf-8',
+        //dataType: 'json',
+        url: "http://54.172.193.233:8080/stocks/Controller1/getpostgains",
+        data: portfoliodata,
+
+        success: function (getjsonportfolio) {
+        
+        console.log(getjsonportfolio);
+        var jsonString=JSON.stringify(getjsonportfolio)
+        console.log("The string is"+jsonString);
+        //var pie = new d3pie("pieChart", a);
+       // alert(a);
+        
+        //jsonStringx= "'"+jsonString+"'";
+        var obj  = JSON.parse(jsonString);
+        console.log(obj[0]);
+        console.log(obj[0].symbol);
+       
+        //window.alert(array[0].Symbol);
+        var arr1= new Array();
+        
+        for(var x in obj){
+        	  arr1.push(obj[x].symbol);
+        	}
+        for (var i = 0; i < arr1.length; i++){
+        	  console.log(arr1[i]);
+        	}
+        
+        
+        var Arr2 = new Array();
+        for(var x in obj){
+      	  Arr2.push(obj[x].count);
+      	}
+      for (var i = 0; i < Arr2.length; i++){
+      	  console.log(Arr2[i]);
+      	}
+      
+      myHeader = ["symbol", "count"];
+      
+      var zip = function (arr1, arr2) {
+    	    var len = Math.max(arr1.length, arr2.length);
+    	    var arr = new Array(len);
+    	    for (var i = 0; i < len; i += 1) {
+    	        arr[i] = [arr1[i], arr2[i]];
+    	    }
+    	    return arr; 
+    	};
+    	data = [myHeader].concat(zip(arr1, Arr2));
+        
+        
+        
+        var Arr2 = [];
+        while(arr1.length) Arr2.push(arr1.splice(0,1));
+
+        
+       
+        
+        
+        var data = new google.visualization.arrayToDataTable(data);
+        
+        var chart = new google.visualization.PieChart(document.getElementById('chart3_div'));
+        
+        var options = {
+                title: 'Wealth Distribution (After Capital Gains/Losses)',
+                width: 400,
+                height: 240,
+                backgroundColor: {
+                	fill: "#ADD8E6"
+                },
+        		is3D: true
+              };
+        
+        chart.draw(data, options);
+    }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</head>
+
+
+<body>
+
+
+<div id="chart_div"></div> 
+<div id="chart3_div"></div> 
+    <p>Order Stock Here</p>
+    <p>Symbol</p>
+    <input type="text" id="symbol" name="symbol">
+    <p>Price</p>
+    <input type="text" id="price" name="price">
+    <p>Month (1-12)</p>
+    <input type="text" id="monthpurchased" name="monthpurchased">
+    <button id="submit">Order</button>
+    
+    <p>Enter month for Captial Gain/Loss Calculation</p>
+    <input type="text" id="gainsinputbox" name="Check gains/losses for which month?(1-12)?">
+    <button id="gains">Calculate Gains</button>
+    
+
+
+
+<br></br>
+<br></br>
+<div id="chart2_div"></div>
+   
+    <p>Get Stock Range</p>
+    <p>Symbol</p>
+    <input type="text" id="symbolrange" name="symbolrange">
+    <p>Start Month (1-12)</p>
+    <input type="text" id="startmonth" name="startmonth">
+    <p>End Month (1-12)</p>
+    <input type="text" id="endmonth" name="endmonth">
+    <button id="getrange">Get Range</button>
+    <button id="reset">Reset</button>
+
+<p></p>
+    <div ng-controller="MainCtrl">
+      <div ui-grid="{ data: myData }" class="myGrid"></div>
+    </div>
+
+
+</body>
+
+</html>

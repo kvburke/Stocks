@@ -1,0 +1,42 @@
+@CHARSET "ISO-8859-1";
+
+body {
+    background-color: lightblue;
+}
+
+.myGrid {
+  width: 400px;
+  height: 250px;
+  
+  
+}
+#chart_div {
+    width: 250px; 
+    float: right;
+    height: 250px;
+    margin-right: 250px;
+    background-color: {
+    fill: #ADD8E6
+    };
+}
+
+
+
+
+#chart2_div {
+    width: 200px; 
+    float: right;
+    height: 275px;
+    margin-right: 250px;
+    margin-bottom: 155px;
+    background-colr: lightblue;
+}
+
+#chart3_div {
+    width: 250px; 
+    float: right;
+    height: 250px;
+    margin-right: 500px;
+   
+    background-colr: lightblue;
+}
